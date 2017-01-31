@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Chat</title>
+        <script type="text/javascript">
+
+              var ws = new WebSocket("ws://localhost:8080/chat-web/chatservlet");
+
+              ws.onopen = function()
+               {
+               };
+
+               ws.onmessage = function (evt) 
+               { 
+                  var received_msg = evt.data;
+                  document.getElementById("chatlog").textContent += received_msg + "\n";
+               };
+        
+               ws.onclose = function()
+               { 
+                  // websocket is closed.
+                  //alert("Connection is closed..."); 
+               };
+
+           function WebSocketTest()
+           {
+            if ("WebSocket" in window)
+            {
+               alert("WebSocket is supported by your Browser!");
+            }
+            else
+            {
+               // The browser doesn't support WebSocket
+               alert("WebSocket NOT supported by your Browser!");
+            }
+
+         }
+          function postToServer(){
+              ws.send(document.getElementById("msg").value);
+              document.getElementById("msg").value = "";
+          }
+          function closeConnect(){
+              ws.close();
+          }
+
+          function login(){
+              ws.doGet();
+              if (ws.getStatusLogining())
+              {
+                alert("IS OK");
+              }
+          }
+      </script>
+    </head>
+    <body>
+        <textarea id="chatlog" rows="10" cols="45" readonly></textarea><br/>
+        <input id="msg" size="35" type="text" />
+        <button type="submit" id="sendButton" onClick="postToServer()">Send!</button>
+        <form action="GetCookie" method="GET">
+         <input type="submit" value="Submit" />
+        </form>
+        <button type="submit" id="sendButton" onClick="closeConnect()">End</button>
+
+        <div id="sse">
+         <a href="javascript:WebSocketTest()">Run WebSocket</a>
+        </div>
+
+    </body>
+</html>
