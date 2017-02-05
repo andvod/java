@@ -1,25 +1,31 @@
 <!DOCTYPE html>
 <html>
 <head>
-        <meta charset="utf-8">
-        <title>Chat</title>
-        <script type="text/javascript">
+	<meta charset="utf-8">
+	<title>Czat | Karelin, Czarnyszow i Vodvud</title>
+	<link rel='stylesheet prefetch' href='http://netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css'>
+	<link rel="stylesheet" href="css/style.css" media="screen" type="text/css" />
+	<link rel="icon" href="http://vladmaxi.net/favicon.ico" type="image/x-icon">
+	<link rel="shortcut icon" href="http://vladmaxi.net/favicon.ico" type="image/x-icon">
+</head>
 
-      </script>
-    </head>
-    <body>
-        <form action="/chat-web/SetCookie" method="GET">
-         First Name: <input type="text" name="login">
-         <br />
-         Last Name: <input type="text" name="password" />
-         <input type="submit" value="login" />
-        </form>
-        
-        <form action="/chat-web/GetCookie" method="GET">
-         First Name: <input type="text" name="login">
-         <br />
-         Last Name: <input type="text" name="password" />
-         <input type="submit" value="sign in" />
-        </form>
-    </body>
+<body>
+
+  <form id="login" class="login" action="SignIn" method="GET">
+	<h2>Logowanie</h2>
+	<label for="user" class="icon-user">Login:</label>
+	<input class="user" id="user" name="user"/>
+	<label for="password" class="icon-lock">Hasło:</label>
+	<input type="password" class="password" id="password" name="password"/>
+	<label for="remember"><input type="checkbox" id="remember" /><span class="remember">zapamietaj mnie</span></label>
+	<input type="submit" value="OK" />
+	<div class="extra">
+		<a href="register.html" class="forgetPassword">Zarejestruj się</a><a href="#" class="facebook icon-facebook">Facebook</a><a href="#" class="googlePlus icon-google-plus-sign">Google+</a>
+	</div>
+</form>
+
+<canvas class="blur" src="images/abstract-wallpaper-abstract-wallpapers.jpg"></canvas>
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
+  <script src="js/index.js"></script>
+</body>
 </html>

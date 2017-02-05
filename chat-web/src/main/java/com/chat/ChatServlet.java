@@ -1,14 +1,10 @@
 package com.chat;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.ArrayList;
-import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.Cookie;
+import java.sql.*;
 
 import javax.websocket.OnClose;
 import javax.websocket.OnMessage;
@@ -26,48 +22,55 @@ public class ChatServlet extends HttpServlet{
                     new ArrayList<Session>();
 
     @OnOpen
-    public void onOpen(Session session)
+    public void open(Session session)
     {
-    	try{
-    	session.getBasicRemote().sendText("Hello");
-        sessionList.add(session);
+    	try{	
+    	session.getBasicRemote().sendText("Hello " + getUserName(session));
+    	sessionList.add(session);    
     	}catch(IOException e){}
-    	
     }
     
     @OnClose
     public void onClose(Session session){
-        sessionList.remove(session);
+    	try{
+    		sessionList.remove(session);
+    		//this.setSessionMinusOne(session);
+    	}
+    	catch (Exception e){}
     }
     
     @OnMessage
-    public void onMessage(String msg){
+    public void onMessage(String msg, Session sessionUser){
         try{
             for(Session session : sessionList){
-                session.getBasicRemote().sendText(msg);
+                session.getBasicRemote().sendText(getUserName(sessionUser) + " : " + msg);
             }
         }catch(IOException e){}
     }
-
-    public void doGet(HttpServletRequest request, HttpServletResponse response)
-      throws ServletException, IOException {
-      // Set response content type       
-
-        String user = request.getParameter("login");
-        String passwd = request.getParameter("password");
-        
-        Cookie[] cookie = request.getCookies();
-        
-        response.setContentType("text/html;charset=UTF-8");
-        PrintWriter out = response.getWriter();
-        out.println("Welcome user");
-        //new GetCookie().doGet(request, response);
-
-        //response.sendRedirect("//localhost:8080/wschat.htm");
-   }
     
-    public void addUser(Session session)
+    private void setSessionMinusOne(Session session)
     {
-    	sessionList.add(session);
+    	SignIn.updateSession(getUserName(session), -1);
     }
+    
+    private String getUserName(Session session)
+    {
+    	String result = "NoName";
+    	try
+    	{
+	    	Statement stmt = DatabaseAccess.connect();
+	    	String sql = "select first from Employees where id =" + session.getId();
+	    	ResultSet rs = DatabaseOperations.select(stmt, sql);
+	    	if (rs.next())	result = rs.getString("first");
+    	}
+    	catch(SQLException se){
+			//Handle errors for JDBC
+			se.printStackTrace();
+		}
+    	catch (IOException ex){
+    		ex.printStackTrace();
+    	}
+    	return result;
+    }
+    
 }

@@ -54,6 +54,20 @@
 	    <artifactId>tomcat-embed-websocket</artifactId>
 	    <version>7.0.68</version>
 	</dependency>
+	<!-- https://mvnrepository.com/artifact/org.apache.tomcat/tomcat-jdbc -->
+	<dependency>
+	    <groupId>org.apache.tomcat</groupId>
+	    <artifactId>tomcat-jdbc</artifactId>
+	    <version>7.0.65</version>
+	</dependency>
+	<!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
+	<dependency>
+	    <groupId>mysql</groupId>
+	    <artifactId>mysql-connector-java</artifactId>
+	    <version>6.0.5</version>
+	</dependency>
+	
+	
 	
   </dependencies>
   

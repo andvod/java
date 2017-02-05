@@ -14,27 +14,42 @@ import javax.servlet.http.HttpServletResponse;
 public class GetCookie extends HttpServlet {
 	private static final long serialVersionUID = 17867868L;
 
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		PrintWriter out = response.getWriter();
-		Cookie[] requestCookies = request.getCookies();
-		
-		out.write("<html><head></head><body>");
-		out.write("<h3>Hello Browser!!</h3>");
-		if(requestCookies != null){
-		out.write("<h3>Request Cookies:</h3>");
-		for(Cookie c : requestCookies){
-			out.write("Name="+c.getName()+", Value="+c.getValue()+", Comment="+c.getComment()
-					+", Domain="+c.getDomain()+", MaxAge="+c.getMaxAge()+", Path="+c.getPath()
-					+", Version="+c.getVersion());
-			out.write("<br>");
-			//delete cookie
-			if(c.getName().equals("Test")){
-				c.setMaxAge(0);
-				response.addCookie(c);
-			}
-		}
-		}
-		out.write("</body></html>");
-	}
+	public void doGet(HttpServletRequest request,
+            HttpServletResponse response)
+    throws ServletException, IOException
+{
+Cookie cookie = null;
+Cookie[] cookies = null;
+// Get an array of Cookies associated with this domain
+cookies = request.getCookies();
+
+// Set response content type
+response.setContentType("text/html");
+
+PrintWriter out = response.getWriter();
+String title = "Reading Cookies Example";
+String docType =
+"<!doctype html public \"-//w3c//dtd html 4.0 " +
+"transitional//en\">\n";
+out.println(docType +
+        "<html>\n" +
+        "<head><title>" + title + "</title></head>\n" +
+        "<body bgcolor=\"#f0f0f0\">\n" );
+if( cookies != null ){
+ out.println("<h2> Found Cookies Name and Value</h2>");
+ for (int i = 0; i < cookies.length; i++){
+    cookie = cookies[i];
+    out.print("Name : " + cookie.getName( ) + ",  ");
+    out.print("Value: " + cookie.getValue( )+" ,");
+    out.print("Date: " + cookie.getMaxAge( )+" ,");
+    out.print("Comment: " + cookie.getComment( )+" <br/>");
+ }
+}else{
+  out.println(
+    "<h2>No cookies founds</h2>");
+}
+out.println("</body>");
+out.println("</html>");
+}
 
 }

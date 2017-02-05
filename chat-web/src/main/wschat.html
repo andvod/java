@@ -5,7 +5,7 @@
         <title>Chat</title>
         <script type="text/javascript">
 
-              var ws = new WebSocket("ws://localhost:8080/chat-web/chatservlet");
+              var ws = new WebSocket("ws://155.158.132.178:8080/chat-web/chatservlet");
 
               ws.onopen = function()
                {
@@ -31,15 +31,15 @@
             }
             else
             {
-               // The browser doesn't support WebSocket
                alert("WebSocket NOT supported by your Browser!");
             }
 
          }
           function postToServer(){
-              ws.send(document.getElementById("msg").value);
+               ws.send(document.getElementById("msg").value);
               document.getElementById("msg").value = "";
           }
+          
           function closeConnect(){
               ws.close();
           }
@@ -57,6 +57,7 @@
         <textarea id="chatlog" rows="10" cols="45" readonly></textarea><br/>
         <input id="msg" size="35" type="text" />
         <button type="submit" id="sendButton" onClick="postToServer()">Send!</button>
+        <button type="submit" id="sendButton" onClick="getIp()">Ip</button>
         <form action="GetCookie" method="GET">
          <input type="submit" value="Submit" />
         </form>
